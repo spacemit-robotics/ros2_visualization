@@ -1,0 +1,36 @@
+## Copyright (C) 2026 SpacemiT (Hangzhou) Technology Co. Ltd.
+## SPDX-License-Identifier: Apache-2.0
+
+module: middleware/ros2/tools/visualization
+
+tests:
+  - name: visualization-websocket-stream
+    description: >-
+      Starts the visualization WebSocket node, verifies the HTTP index page has
+      substituted endpoint values, publishes a fake CompressedImage, and checks
+      the WebSocket client receives the expected base64 frame payload.
+    category: functional
+    scopes: [pr]
+    timeout_s: 180
+    workdir: sdk
+    requires:
+      commands: [bash, colcon, dpkg, python3]
+    artifacts:
+      - output/test/pr/middleware__ros2__tools__visualization/modules/middleware__ros2__tools__visualization/logs/websocket_stream_functional.log
+    command: |
+      bash middleware/ros2/tools/visualization/tests/test_websocket_stream_functional.sh
+
+  - name: visualization-websocket-port-in-use
+    description: >-
+      Starts the visualization WebSocket launch file on an occupied TCP port
+      and verifies the node reports an explicit bind error without hanging.
+    category: functional
+    scopes: [pr]
+    timeout_s: 180
+    workdir: sdk
+    requires:
+      commands: [bash, colcon, dpkg, python3]
+    artifacts:
+      - output/test/pr/middleware__ros2__tools__visualization/modules/middleware__ros2__tools__visualization/logs/websocket_port_in_use.log
+    command: |
+      bash middleware/ros2/tools/visualization/tests/test_websocket_invalid_port.sh
